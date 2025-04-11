@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.spring.security</groupId>
-	<artifactId>springSecurity2</artifactId>
+	<artifactId>secureBankApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springSecurity2</name>
+	<name>secureBankApp</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
