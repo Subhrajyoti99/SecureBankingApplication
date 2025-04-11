@@ -17,4 +17,4 @@ CREATE TABLE `customer` (
 );
 
 INSERT  INTO `customer` (`email`, `pwd`, `role`) VALUES ('happy@example.com', '{noop}SecureBank@12345', 'read');
-INSERT  INTO `customer` (`email`, `pwd`, `role`) VALUES ('admin@example.com', '{bcrypt}$2a$12$ur9zPSJ.JlMKsdZ9Swig0O9a7X4Ip32n/rdL3VtCZZ1of8Lzn7wJ.', 'admin');
+INSERT  INTO `customer` (`email`, `pwd`, `role`) VALUES ('admin@example.com', '{bcrypt}$2a$12$WfmUgEExUNbrvOEqHma8heewoVYNCn1vlVjyN1oA3bwm6gDHG6EH2', 'admin');
