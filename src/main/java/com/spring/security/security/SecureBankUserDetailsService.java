@@ -29,6 +29,8 @@ public class SecureBankUserDetailsService implements UserDetailsService {
        Customer customer = customerRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("UserDetails not found for the user:"+ username));
 
+
+
        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(customer.getRole()));
        return new User(customer.getEmail(), customer.getPwd(),authorities);
     }
