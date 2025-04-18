@@ -26,12 +26,11 @@ public class SecureBankUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       Customer customer = customerRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("UserDetails not found for the user:"+ username));
+        Customer customer = customerRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("UserDetails not found for the user:" + username));
 
 
-
-       List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(customer.getRole()));
-       return new User(customer.getEmail(), customer.getPwd(),authorities);
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(customer.getRole()));
+        return new User(customer.getEmail(), customer.getPwd(), authorities);
     }
 }
