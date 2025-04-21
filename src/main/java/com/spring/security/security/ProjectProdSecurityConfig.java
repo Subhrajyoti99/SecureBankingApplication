@@ -1,5 +1,6 @@
 package com.spring.security.security;
 
+import com.spring.security.exceptionhandling.CustomAccessDeniedHandler;
 import com.spring.security.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,11 @@ public class ProjectProdSecurityConfig {
                 .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
                 .requestMatchers("/notices", "/contact", "/error","/register").permitAll());
         http.formLogin(withDefaults());
-        http.httpBasic(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.httpBasic(
+                hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.exceptionHandling(
+                ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler())); //it has global config
+
         return http.build();
     }
 
