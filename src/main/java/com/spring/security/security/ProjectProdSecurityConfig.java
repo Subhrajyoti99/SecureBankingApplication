@@ -1,5 +1,7 @@
 package com.spring.security.security;
 
+import com.spring.security.exceptionhandling.CustomAccessDeniedHandler;
+import com.spring.security.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -20,12 +22,18 @@ public class ProjectProdSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.sessionManagement(smc->smc.invalidSessionUrl("/invalidSession").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/expiredUrl"))
+                .requiresChannel(rcc->rcc.anyRequest().requiresSecure())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
-                .requestMatchers("/notices", "/contact", "/error","/register").permitAll());
+                .requestMatchers("/notices", "/contact", "/error","/register", "/invalidSession", "/expiredUrl").permitAll());
         http.formLogin(withDefaults());
-        http.httpBasic(withDefaults());
+        http.httpBasic(
+                hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); //it's only for form basic authentication
+        http.exceptionHandling(
+                ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler())); //it has global config
+
         return http.build();
     }
 
