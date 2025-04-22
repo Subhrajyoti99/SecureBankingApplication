@@ -22,14 +22,15 @@ public class ProjectProdSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        http.requiresChannel(rcc->rcc.anyRequest().requiresSecure())
+        http.sessionManagement(smc->smc.invalidSessionUrl("/invalidSession").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/expiredUrl"))
+                .requiresChannel(rcc->rcc.anyRequest().requiresSecure())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
-                .requestMatchers("/notices", "/contact", "/error","/register").permitAll());
+                .requestMatchers("/notices", "/contact", "/error","/register", "/invalidSession", "/expiredUrl").permitAll());
         http.formLogin(withDefaults());
         http.httpBasic(
-                hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+                hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); //it's only for form basic authentication
         http.exceptionHandling(
                 ehc -> ehc.accessDeniedHandler(new CustomAccessDeniedHandler())); //it has global config
 
