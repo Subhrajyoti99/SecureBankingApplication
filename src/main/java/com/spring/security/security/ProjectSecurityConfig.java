@@ -55,7 +55,6 @@ public class ProjectSecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
 
-//                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession").maximumSessions(3).maxSessionsPreventsLogin(true).expiredUrl("/expiredUrl"))
                 .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) //only http traffic is going to be accepted
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards", "/user").authenticated()
