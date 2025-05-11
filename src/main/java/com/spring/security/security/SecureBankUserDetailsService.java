@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +32,10 @@ public class SecureBankUserDetailsService implements UserDetailsService {
         Customer customer = customerRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("UserDetails not found for the user:" + username));
 
+        List<GrantedAuthority> authorities = customer.getAuthorities().stream()
+                .map(authority->new SimpleGrantedAuthority(authority.getName()))
+                .collect(Collectors.toList());
 
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(customer.getRole()));
         return new User(customer.getEmail(), customer.getPwd(), authorities);
     }
 }
