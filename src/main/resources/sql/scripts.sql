@@ -16,8 +16,7 @@ CREATE TABLE `customer` (
                             PRIMARY KEY (`id`)
 );
 
-INSERT  INTO `customer` (`email`, `pwd`, `role`) VALUES ('happy@example.com', '{noop}SecureBank@12345', 'read');
-INSERT  INTO `customer` (`email`, `pwd`, `role`) VALUES ('admin@example.com', '{bcrypt}$2a$12$WfmUgEExUNbrvOEqHma8heewoVYNCn1vlVjyN1oA3bwm6gDHG6EH2', 'admin');
+INSERT  INTO `customer` (`email`, `pwd`, `role`) VALUES ('samanta@example.com', '{bcrypt}$2a$12$..mcqgKQzg9vYSNF5CNqyOH0W3G7Mhfos8bWvB1BxW7HF9xCqmL7i', 'user');
 
 CREATE TABLE `authorities` (
                                `id` int NOT NULL AUTO_INCREMENT,
