@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Constants ###
+/src/main/java/com/spring/security/constants/
