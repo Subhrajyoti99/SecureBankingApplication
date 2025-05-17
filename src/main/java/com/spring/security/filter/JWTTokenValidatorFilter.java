@@ -33,19 +33,24 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        //taking the jwt token from header
         String jwt = request.getHeader(ApplicationConstants.JWT_HEADER);
         if (jwt != null) {
             try {
                 Environment env = getEnvironment();
-
                 if (env != null) {
                     String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY
                             , ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
 
                     SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
                     if (secretKey != null) {
-                        Claims claims = Jwts.parser().verifyWith(secretKey).build()
-                                .parseSignedClaims(jwt).getPayload();
+                        Claims claims = Jwts.parser().verifyWith(secretKey).build() // upto this the parser has been configured with the secretKey
+                                // and the parser has been finalised with the JwtParser Instance
+
+                                .parseSignedClaims(jwt).getPayload(); //on this line jwt has been supplied
+                        // and the parser checks the signature and compare it by generating a new signature
+                        // with the secretKey and compare it with the supplied one.
                         String username = String.valueOf(claims.get("username"));
                         String roles = String.valueOf(claims.get("role"));
                         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,

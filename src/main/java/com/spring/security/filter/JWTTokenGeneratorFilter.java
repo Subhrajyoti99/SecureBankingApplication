@@ -30,16 +30,21 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        //first taking the authentication object from the securityContextHolder
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {
+
+            //checking the environment if any key present there, else we will take the default secret
             Environment env = getEnvironment();
             if (env != null) {
                 String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY
                         , ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
-
+                //generating the secret key using Keys.hmacShaKeyFor()
                 SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
+                //generating the jwt token using builder() and signing it with .signWith().compact()
                 String jwt = Jwts.builder()
                         .issuer("Secure Bank")
                         .subject("JWT Token")
@@ -49,6 +54,8 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
                         .issuedAt(new Date())
                         .expiration(new Date((new Date()).getTime() + 30000000))
                         .signWith(secretKey).compact();
+
+                //setting the token to the requestHeader
                 response.setHeader(ApplicationConstants.JWT_HEADER, jwt);
             }
         }
