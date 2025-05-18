@@ -35,7 +35,6 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {
-
             //checking the environment if any key present there, else we will take the default secret
             Environment env = getEnvironment();
             if (env != null) {
@@ -66,5 +65,4 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return !request.getServletPath().equals("/user");
     }
-
 }
