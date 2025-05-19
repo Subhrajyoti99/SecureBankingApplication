@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SecureBankProdUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
-    private final SecureBankUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -25,13 +26,12 @@ public class SecureBankProdUsernamePasswordAuthenticationProvider implements Aut
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-       UserDetails user = userDetailsService.loadUserByUsername(username);
-       if(passwordEncoder.matches(password, user.getPassword())) {
-           return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
-       }
-       else{
-           throw new BadCredentialsException("Invalid Password");
-       }
+        UserDetails user = userDetailsService.loadUserByUsername(username);
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
+        } else {
+            throw new BadCredentialsException("Invalid Password");
+        }
 
     }
 
