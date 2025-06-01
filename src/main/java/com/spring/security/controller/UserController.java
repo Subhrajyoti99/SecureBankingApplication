@@ -57,13 +57,14 @@ public class UserController {
                     body("An exception occurred: " + ex.getMessage());
         }
     }
-
+//this endpoint is just for httpBasic login
     @RequestMapping("/user")
     public Customer getUserDetailsAfterLogin(Authentication authentication) {
         Optional<Customer> optionalCustomer = customerRepository.findByEmail(authentication.getName());
         return optionalCustomer.orElse(null);
     }
 
+    //this is for restApi based login
     @PostMapping("/apiLogin")
     public ResponseEntity<LoginResponseDTO> apiLogin(@RequestBody LoginRequestDTO loginRequest){
         String jwt = "";
