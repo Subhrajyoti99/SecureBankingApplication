@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface LoanRepository extends JpaRepository<Loans, Long> {
 
+    //@PreAuthorize("hasRole('USER')")
     List<Loans> findByCustomerIdOrderByStartDtDesc(long customerId);
 
 }
