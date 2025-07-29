@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtUtil {
 
-
     private final Environment env;
 
     public String generateToken(Authentication authResponse){
