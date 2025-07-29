@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ### Constants ###
-/src/main/java/com/spring/security/constants/
+###/src/main/java/com/spring/security/constants/
+/SecureBankBackend/src/main/java/com/spring/security/constants/
