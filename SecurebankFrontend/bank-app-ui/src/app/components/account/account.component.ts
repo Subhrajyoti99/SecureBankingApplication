@@ -13,6 +13,7 @@ export class AccountComponent implements OnInit {
   account = new Account();
   constructor(private dashboardService: DashboardService) { }
 
+
   ngOnInit(): void {
     this.user = JSON.parse(sessionStorage.getItem('userdetails')!);
     if(this.user){
